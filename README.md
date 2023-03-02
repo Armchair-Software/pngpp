@@ -46,8 +46,10 @@ An example of generating a PNG image and adding metadata is as follows:
   }
   output_png.set_text(png_comments);
   
-  output_png.write()
+  output_png.write("my_filename.png")
 ```
+
+Take care about string lifetimes if using c_str() as above!  The `png_text` struct keeps char pointers and does not copy the text, so the underlying strings must remain available until the PNG is written.
 
 For more information about the specific fields of the `png_text` struct, see the libpng [documentation](http://www.libpng.org/pub/png/libpng-manual.txt) and [examples](https://github.com/mitsuba-renderer/libpng/blob/master/example.c#L854).
 
