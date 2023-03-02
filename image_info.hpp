@@ -33,6 +33,7 @@
 
 #include "types.hpp"
 #include "palette.hpp"
+#include "text.hpp"
 #include "tRNS.hpp"
 #include "pixel_traits.hpp"
 
@@ -182,6 +183,29 @@ namespace png
             m_gamma = gamma;
         }
 
+        std::vector< text > const& get_text() const
+        {
+            return m_text;
+        }
+
+        std::vector< text >& get_text()
+        {
+            return m_text;
+        }
+
+        void set_text(std::vector< text > const& txt)
+        {
+            m_text = txt;
+        }
+
+        /**
+         * \brief Removes all entries from the text comments.
+         */
+        void drop_text()
+        {
+            m_text.clear();
+        }
+
     protected:
         uint_32 m_width;
         uint_32 m_height;
@@ -191,6 +215,7 @@ namespace png
         compression_type m_compression_type;
         filter_type m_filter_type;
         palette m_palette;
+        std::vector< text > m_text;
         tRNS m_tRNS;
         double m_gamma;
     };

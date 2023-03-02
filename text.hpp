@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2007,2008   Alex Shulgin
+ * Copyright (C) 2023 Eugene Hopkinson
  *
  * This file is part of png++ the C++ wrapper for libpng.  PNG++ is free
  * software; the exact copying conditions are as follows:
@@ -28,45 +28,52 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-#ifndef PNGPP_END_INFO_HPP_INCLUDED
-#define PNGPP_END_INFO_HPP_INCLUDED
+#ifndef PNGPP_TEXT_HPP_INCLUDED
+#define PNGPP_TEXT_HPP_INCLUDED
 
-#include "info_base.hpp"
+#include <png.h>
 
 namespace png
 {
 
     /**
-     * \brief Internal class to hold PNG ending %info.
-     *
-     * \see info, info_base
+     * \brief PNG text struct extension.  Adds constructors.
      */
-    class end_info
-        : public info_base
+    struct text
+        : png_text
     {
-    public:
-        end_info(io_base& io, png_struct* png)
-            : info_base(io, png)
+        explicit text(png_const_charp key,
+                      png_const_charp txt,
+                      int compression = PNG_TEXT_COMPRESSION_zTXt,
+                      size_t text_length = 0,
+                      size_t itxt_length = 0,
+                      png_charp lang = nullptr,
+                      png_charp lang_key = nullptr)
         {
+            this->compression = compression;
+            this->key = const_cast< png_charp >(key);
+            this->png_text::text = const_cast< png_charp>(txt);
+            this->text_length = text_length;
+            this->itxt_length = itxt_length;
+            this->lang = lang;
+            this->lang_key = lang_key;
         }
 
-        void destroy()
+        /**
+         * \brief Initializes text with a copy of png_text object.
+         */
+        text(png_text const& other)
         {
-            assert(m_info);
-            png_destroy_info_struct(m_png, & m_info);
-        }
-
-        void read()
-        {
-            png_read_end(m_png, m_info);
-        }
-
-        void write() const
-        {
-            png_write_end(m_png, m_info);
+            this->compression = other.compression;
+            this->key = other.key;
+            this->png_text::text = other.text;
+            this->text_length = other.text_length;
+            this->itxt_length = other.itxt_length;
+            this->lang = other.lang;
+            this->lang_key = other.lang_key;
         }
     };
 
 } // namespace png
 
-#endif // PNGPP_END_INFO_HPP_INCLUDED
+#endif // PNGPP_TEXT_HPP_INCLUDED

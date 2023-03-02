@@ -125,7 +125,7 @@ namespace png
                 {
                     png_set_PLTE(m_png, m_info,
                                  const_cast< color* >(& m_palette[0]),
-                                 (int) m_palette.size());
+                                 static_cast<int>(m_palette.size()));
                 }
                 if (! m_tRNS.empty())
                 {
@@ -152,6 +152,13 @@ namespace png
 #else
                 throw error("attempted to write gAMA chunk; recompile with PNG_gAMA_SUPPORTED");
 #endif
+            }
+
+            if(! m_text.empty())
+            {
+                png_set_text(m_png, m_info,
+                             const_cast< png_text* >(static_cast< const png_text* >(& m_text[0])),
+                             static_cast<int>(m_text.size()));
             }
 
             png_write_info(m_png, m_info);

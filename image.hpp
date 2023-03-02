@@ -47,7 +47,7 @@ namespace png
      * %info like interlace type, compression method, palette (for
      * colormap-based images) etc.  Provides methods to read and write
      * images from/to a generic stream and to manipulate %image pixels.
-     * 
+     *
      * The default pixel_buffer stores pixels in a vector of vectors, which
      * is good for openning, editing or converting an image to any
      * pixel type.
@@ -291,7 +291,7 @@ namespace png
         {
             return m_pixbuf;
         }
-        
+
         /**
          * \brief Returns a const reference to image pixel buffer.
          */
@@ -340,7 +340,7 @@ namespace png
         {
             return m_pixbuf.get_row(index);
         }
-        
+
         /**
          * \brief Returns a const reference to the row of image data at
          * specified index.
@@ -359,7 +359,7 @@ namespace png
         {
             return m_pixbuf[index];
         }
-        
+
         /**
          * \brief The non-checking version of get_row() method.
          */
@@ -461,6 +461,30 @@ namespace png
         void set_gamma(double gamma)
         {
             m_info.set_gamma(gamma);
+        }
+
+        /**
+         * \brief Returns a reference to the text comments.
+         */
+        std::vector< text >& get_text()
+        {
+            return m_info.get_text();
+        }
+
+        /**
+         * \brief Returns a const reference to the text comments.
+         */
+        std::vector< text > const& get_text() const
+        {
+            return m_info.get_text();
+        }
+
+        /**
+         * \brief Adds a text comment
+         */
+        void set_text(std::vector< text > const& txt)
+        {
+            m_info.set_text(txt);
         }
 
     protected:
