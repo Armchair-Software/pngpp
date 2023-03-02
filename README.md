@@ -1,3 +1,62 @@
+This is a fork of PNG++, the C++ wrapper for libPNG.
+
+This fork adds functionality to add PNG metadata to images in the form of text comments.
+
+It adds the following new functions:
+
+```cpp
+std::vector<text>& image::get_text();
+void image::set_text(std::vector<text> const& txt);
+```
+
+The `text` struct is a wrapper for libpng's `png_text` struct, with the following constructor:
+
+```cpp
+text(png_const_charp key,
+     png_const_charp txt,
+     int compression = PNG_TEXT_COMPRESSION_zTXt,
+     size_t text_length = 0,
+     size_t itxt_length = 0,
+     png_charp lang = nullptr,
+     png_charp lang_key = nullptr)
+```
+
+An example of generating a PNG image and adding metadata is as follows:
+
+```cpp
+  png::image<png::rgba_pixel> output_png(image_size.x, image_size.y);
+  
+  // construct your PNG as normal here, this is just a basic example:
+  for(png::uint_32 y = 0; y != 255; ++y) {
+    for(png::uint_32 x = 0; x != 255; ++x) {
+      output_png[y][x] = png::rgba_pixel(x, 0, y, 96);
+    }
+  }
+  
+  auto png_comments{output_png.get_text()};                
+  std::initializer_list<std::pair<std::string, std::string>> comments {
+    {"Title", "My beautiful PNG"},
+    {"Author", "Armchair Software"},
+    {"Copyright", "Copyright Armchair Ltd"},
+  };
+  for(auto const &[key, text] : comments) {
+    png_comments.emplace_back(key.c_str(), text.c_str());
+  }
+  output_png.set_text(png_comments);
+  
+  output_png.write()
+```
+
+For more information about the specific fields of the `png_text` struct, see the libpng [documentation](http://www.libpng.org/pub/png/libpng-manual.txt) and [examples](https://github.com/mitsuba-renderer/libpng/blob/master/example.c#L854).
+  
+For all other PNG++ functionality, see the original documentation at https://www.nongnu.org/pngpp/.
+  
+---
+
+The original README continues below.
+-----------------------
+
+
 This is png++ the C++ wrapper for libpng.  Version 0.2
 
 General
