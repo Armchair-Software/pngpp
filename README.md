@@ -1,5 +1,7 @@
 This is a fork of PNG++, the C++ wrapper for libPNG.
 
+## Text metadata for PNG images
+
 This fork adds functionality to add PNG metadata to images in the form of text comments.
 
 It adds the following new functions:
@@ -48,7 +50,16 @@ An example of generating a PNG image and adding metadata is as follows:
 ```
 
 For more information about the specific fields of the `png_text` struct, see the libpng [documentation](http://www.libpng.org/pub/png/libpng-manual.txt) and [examples](https://github.com/mitsuba-renderer/libpng/blob/master/example.c#L854).
-  
+
+## Other improvements
+
+This fork adds a few other minor improvements which don't affect the core functionality:
+
+- Improved MinGW32 compatibility
+- Improved Emscripten compatibility
+
+## PNG++ functionality
+
 For all other PNG++ functionality, see the original documentation at https://www.nongnu.org/pngpp/.
   
 ---
