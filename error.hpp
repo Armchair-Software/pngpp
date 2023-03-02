@@ -41,6 +41,10 @@
 #undef  HAVE_STRERROR_S
 #endif
 
+#ifdef __MINGW32__
+#define HAVE_STRERROR_S 1
+#endif // __MINGW32__
+
 #include <string>
 #include <stdexcept>
 #include <cerrno>
