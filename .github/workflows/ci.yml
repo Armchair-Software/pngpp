@@ -22,3 +22,14 @@ jobs:
 
       - name: Run tests
         run: make test
+
+      - name: Print test.log on failure
+        if: failure()
+        run: cat test/test.log
+
+      - name: Upload test.log
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-log
+          path: test/test.log
