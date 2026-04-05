@@ -2,9 +2,7 @@ name: CI
 
 on:
   push:
-    branches: ["**"]
   pull_request:
-    branches: ["**"]
 
 jobs:
   build-and-test:
@@ -17,15 +15,17 @@ jobs:
       - name: Install dependencies
         run: sudo apt-get update && sudo apt-get install -y libpng-dev
 
-      - name: Build tests
-        run: make -C test
-
       - name: Run tests
         run: make test
 
       - name: Print test.log on failure
         if: failure()
-        run: cat test/test.log
+        run: |
+          if [ -f test/test.log ]; then
+            cat test/test.log
+          else
+            echo "test/test.log not found (tests may have failed to build)"
+          fi
 
       - name: Upload test.log
         if: failure()
@@ -33,3 +33,4 @@ jobs:
         with:
           name: test-log
           path: test/test.log
+          if-no-files-found: ignore
