@@ -1,0 +1,16 @@
+# Build artifacts
+*.o
+*.dep
+
+# Test binaries
+test/convert_color_space
+test/dump
+test/generate_gray_packed
+test/generate_palette
+test/read_write_gray_packed
+test/read_write_param
+test/write_gray_16
+
+# Test output
+test/out/
+test/test.log
